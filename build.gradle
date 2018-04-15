@@ -1,0 +1,81 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.8.RELEASE")
+        classpath("info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.1.11")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: "info.solidsoft.pitest"
+apply plugin: "jacoco"
+
+jar {
+    baseName = 'fitness-viking'
+    version = '1.0.0'
+}
+
+pitest {
+    targetClasses = ['com.vikingcorp.fitnessviking.*']
+    timestampedReports = false
+    outputFormats = ['XML', 'HTML']
+}
+jacoco {
+    toolVersion = "0.7.9"
+    reportsDir = file("$buildDir/customJacocoReportDir")
+}
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination file("${buildDir}/jacocoHtml")
+    }
+}
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.5
+            }
+        }
+
+        rule {
+            enabled = false
+            element = 'CLASS'
+            includes = ['com.vikingcorp.budgetviking.*']
+
+            limit {
+                counter = 'LINE'
+                value = 'TOTALCOUNT'
+                maximum = 0.3
+            }
+        }
+    }
+}
+test {
+    jacoco {
+        append = false
+        destinationFile = file("$buildDir/jacoco/jacocoTest.exec")
+        classDumpDir = file("$buildDir/jacoco/classpathdumps")
+    }
+}
+
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-data-rest")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.7.22'
+}
