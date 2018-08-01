@@ -13,7 +13,7 @@ public class CalculatorService {
 		return weight * (1 + (reps / 30));
 	}
 	
-	public Plates caluclatePlatesNeeded(double weight) {
+	public Plates calculatePlatesNeeded(double weight) {
 		Plates plates = new Plates();
 		double weightMinusBar = weight - 45;
 		
@@ -62,6 +62,6 @@ public class CalculatorService {
 	
 	@ResponseStatus(value=HttpStatus.BAD_REQUEST, reason="Weight must be 45 lbs or"
 			+ " more and divisible by 5") 
-	 public class InvalidWeightException extends RuntimeException {
+	 private class InvalidWeightException extends RuntimeException {
 	 }
 }
