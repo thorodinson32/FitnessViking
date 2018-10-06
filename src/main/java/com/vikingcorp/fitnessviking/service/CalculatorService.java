@@ -7,40 +7,38 @@ import com.vikingcorp.fitnessviking.model.Plates;
 @Component
 public class CalculatorService {
 	
-	public double calculateOneRepMax(double weight, double reps) {
+	public double calculateOneRepMax(int weight, double reps) {
 		return weight * (1 + (reps / 30));
 	}
 	
-	public Plates calculatePlatesNeeded(double weight) {
+	public Plates calculatePlatesNeeded(int weight) {
 		Plates plates = new Plates();
-		double weightMinusBar = weight - 45;
+		int weightMinusBar = weight - 45;
 		
 		if(weightMinusBar >= 0 && weightMinusBar % 5 == 0) {
-			int weightRemainingRounded = (int)weightMinusBar;
-			
-			int numberOf45 = calculateNumberOfPlates(weightRemainingRounded, 45);
+			int numberOf45 = calculateNumberOfPlates(weightMinusBar, 45);
 			plates.setFortyFive(numberOf45);
-			weightRemainingRounded = weightRemainingRounded - (numberOf45 * 45);
+			weightMinusBar = weightMinusBar - (numberOf45 * 45);
 			
-			int numberOf35 = calculateNumberOfPlates(weightRemainingRounded, 35);
+			int numberOf35 = calculateNumberOfPlates(weightMinusBar, 35);
 			plates.setThirtyFive(numberOf35);
-			weightRemainingRounded = weightRemainingRounded - (numberOf35 * 35);
+			weightMinusBar = weightMinusBar - (numberOf35 * 35);
 			
-			int numberOf25 = calculateNumberOfPlates(weightRemainingRounded, 25);
+			int numberOf25 = calculateNumberOfPlates(weightMinusBar, 25);
 			plates.setTwentyFive(numberOf25);
-			weightRemainingRounded = weightRemainingRounded - (numberOf25 * 25);
+			weightMinusBar = weightMinusBar - (numberOf25 * 25);
 			
-			int numberOf10 = calculateNumberOfPlates(weightRemainingRounded, 10);
+			int numberOf10 = calculateNumberOfPlates(weightMinusBar, 10);
 			plates.setTen(numberOf10);
-			weightRemainingRounded = weightRemainingRounded - (numberOf10 * 10);
+			weightMinusBar = weightMinusBar - (numberOf10 * 10);
 			
-			int numberOf5 = calculateNumberOfPlates(weightRemainingRounded, 5);
+			int numberOf5 = calculateNumberOfPlates(weightMinusBar, 5);
 			plates.setFive(numberOf5);
-			weightRemainingRounded = weightRemainingRounded - (numberOf5 * 5);
+			weightMinusBar = weightMinusBar - (numberOf5 * 5);
 			
-			int numberOf2Point5 = calculateNumberOfPlates(weightRemainingRounded, 2.5);
+			int numberOf2Point5 = calculateNumberOfPlates(weightMinusBar, 2.5);
 			plates.setTwoAndHalf(numberOf2Point5);
-			weightRemainingRounded = (int)(weightRemainingRounded - (numberOf2Point5 * 2.5));
+			weightMinusBar = (int)(weightMinusBar - (numberOf2Point5 * 2.5));
 
 		}
 		

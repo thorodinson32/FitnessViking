@@ -33,7 +33,7 @@ public class CalculatorController {
 
 	@GetMapping(value = "plates",
 			produces = "application/json")
-	public ResponseEntity<Plates> getPlatesForWeight(@RequestParam("weight") double weight) {
+	public ResponseEntity<Plates> getPlatesForWeight(@RequestParam("weight") int weight) {
 		Plates plates = calculatorService.calculatePlatesNeeded(weight);
 		
 		return new ResponseEntity<>(plates, HttpStatus.OK);
