@@ -3,13 +3,11 @@ package com.vikingcorp.fitnessviking.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vikingcorp.fitnessviking.model.OneRepMaxRequest;
 import com.vikingcorp.fitnessviking.model.Plates;
 import com.vikingcorp.fitnessviking.service.CalculatorService;
 
@@ -24,18 +22,18 @@ public class CalculatorController {
 		this.calculatorService = calculatorService;
 	}
 
-	@RequestMapping(value = "onerepmax", 
-			method = RequestMethod.POST,
-			consumes = "application/json")
-	public ResponseEntity<Double> getOneRepMax(@RequestBody OneRepMaxRequest request) {
-		double oneRepMax = calculatorService.calculateOneRepMax(request.getWeight(), request.getReps());
+	@GetMapping(value="onerepmax",
+			produces = "application/json")
+	public ResponseEntity<Double> getOneRepMax(@RequestParam("weight") int weight, 
+			@RequestParam("reps") int reps) {
+		double oneRepMax = calculatorService.calculateOneRepMax(weight, reps);
 		
 		return new ResponseEntity<>(oneRepMax, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "plates/{weight}", 
-			method = RequestMethod.GET)
-	public ResponseEntity<Plates> getPlatesForWeight(@PathVariable("weight") double weight) {
+	@GetMapping(value = "plates",
+			produces = "application/json")
+	public ResponseEntity<Plates> getPlatesForWeight(@RequestParam("weight") double weight) {
 		Plates plates = calculatorService.calculatePlatesNeeded(weight);
 		
 		return new ResponseEntity<>(plates, HttpStatus.OK);

@@ -1,8 +1,6 @@
 package com.vikingcorp.fitnessviking.service;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.vikingcorp.fitnessviking.model.Plates;
 
@@ -44,8 +42,6 @@ public class CalculatorService {
 			plates.setTwoAndHalf(numberOf2Point5);
 			weightRemainingRounded = (int)(weightRemainingRounded - (numberOf2Point5 * 2.5));
 
-		} else {
-			throw new InvalidWeightException();
 		}
 		
 		return plates;
@@ -59,9 +55,4 @@ public class CalculatorService {
 		
 		return numberOfPlate;
 	}
-	
-	@ResponseStatus(value=HttpStatus.BAD_REQUEST, reason="Weight must be 45 lbs or"
-			+ " more and divisible by 5") 
-	 private class InvalidWeightException extends RuntimeException {
-	 }
 }
