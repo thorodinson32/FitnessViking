@@ -6,21 +6,19 @@ pipeline {
 			steps {
 				echo 'building FitnessViking'
 				sh './gradlew clean build'
-				archiveArtifacts artifacts: 'build/libs/*.jar', fingerprint: true
+				stash includes: 'build/libs/*.jar', name: 'buildfiles'
 			}
 		}
-		
-		stage("Deploy") {
+		stage("Deploy"){
 			agent {
-        		docker { 
-        			image 'govau/cf-cli' 
-        		}
+                docker { image 'governmentpaas/cf-cli' }
+            }
+            environment {
+            	CLOUD_FOUNDARY_LOGIN_USR = 'nothingfights@gmail.com'
+        		CLOUD_FOUNDARY_LOGIN_PSW = credentials('CF_PASSWORD')
     		}
-			environment {
-				CLOUD_FOUNDARY_LOGIN = credentials('CLOUD_FOUNDARY_LOGIN')
-			}
 			steps {
-				echo 'Deploying FitnessViking'
+				unstash 'buildfiles'
 				sh './deploy.sh'
 			}
 		}
