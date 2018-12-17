@@ -13,13 +13,11 @@ pipeline {
 			agent {
                 docker { image 'governmentpaas/cf-cli' }
             }
-            environment {
-            	CLOUD_FOUNDARY_LOGIN_USR = 'nothingfights@gmail.com'
-        		CLOUD_FOUNDARY_LOGIN_PSW = credentials('CF_PASSWORD')
-    		}
 			steps {
-				unstash 'buildfiles'
-				sh './deploy.sh'
+				withCredentials([usernamePassword(credentialsId: 'CF_LOGIN', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+					unstash 'buildfiles'
+					sh './deploy.sh'
+				}
 			}
 		}
 	}
