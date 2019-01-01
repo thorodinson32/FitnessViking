@@ -1,4 +1,6 @@
-cf login -a https://api.run.pivotal.io -u ${USERNAME} -p ${PASSWORD}
+#!/usr/bin/env bash
+
+cf cf login -a https://api.local.pcfdev.io --skip-ssl-validation -u ${USERNAME} -p ${PASSWORD}
 if cf apps | grep -q fitnessviking
 	then
 		echo "Deleting existing fitnessviking Service"

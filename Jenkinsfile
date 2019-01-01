@@ -5,6 +5,7 @@ pipeline {
 		stage("Build") {
 			steps {
 				echo 'building FitnessViking'
+				sh 'chmod +x ./gradlew'
 				sh './gradlew clean build'
 				stash includes: 'build/libs/*.jar', name: 'buildfiles'
 			}
